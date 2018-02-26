@@ -1,4 +1,5 @@
 require "imdb_apios/version"
+require "imdb_apios/client"
 
 module ImdbApios
   def self.validate_imdb_id imdb_id
