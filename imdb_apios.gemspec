@@ -36,4 +36,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "simplecov"
   spec.add_development_dependency "api-auth"
   spec.add_development_dependency "rest-client"
+  
 end
