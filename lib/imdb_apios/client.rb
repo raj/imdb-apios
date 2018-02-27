@@ -11,7 +11,6 @@ module ImdbApios
     def get_title_plot imdb_id
     end
 
-
     def get_title_user_reviews imdb_id
     end
 
@@ -26,7 +25,7 @@ module ImdbApios
     end
 
 
-    def search_for_title
+    def search_for_title title
     end
 
     def get_popular_titles
@@ -34,13 +33,15 @@ module ImdbApios
     end
 
     def get_popular_shows
+
     end
 
     def get_popular_movies
+
     end
 
-
     def get_title_episodes imdb_id
+
     end
 
 
