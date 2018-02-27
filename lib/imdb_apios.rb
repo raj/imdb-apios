@@ -1,4 +1,5 @@
 require "imdb_apios/version"
+require "imdb_apios/constant"
 require "imdb_apios/client"
 
 module ImdbApios
