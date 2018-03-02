@@ -1,6 +1,7 @@
 require "imdb_apios/version"
 require "imdb_apios/constant"
 require "imdb_apios/client"
+require "imdb_apios/signer"
 
 module ImdbApios
   def self.validate_imdb_id imdb_id

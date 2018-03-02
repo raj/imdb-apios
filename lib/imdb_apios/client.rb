@@ -2,7 +2,7 @@ require 'uri'
 require 'net/http'
 require "json"
 require 'api-auth'
-
+require 'byebug'
 
 module ImdbApios
   class Client
@@ -56,8 +56,7 @@ module ImdbApios
 
     private
     def get_resource(endpoint, imdb_id)
-      get_credentials
-      puts endpoint
+      creds = get_credentials
       # puts imdb_id
       # headers = { 'Content-MD5' => "e59ff97941044f85df5297e1c302d260",
       #   'Content-Type' => "text/plain",
@@ -87,14 +86,34 @@ module ImdbApios
       # (url: "https://api.imdbws.com/title/tt1832382/releases",headers: {},method: :get)
       # @request.get
       # puts @request
-      url = URI.parse('https://api.imdbws.com/title/tt1832382/releases')
-      req = Net::HTTP::Get.new(url.to_s)
-      puts req
-      @signed_request = ApiAuth.sign!(req, "ASIAJ4AR2BRNZJ2EPYIQ", "2IYkV33+dNbX18geZ4D5Sz4cjdnpKr9N9cA2mFei")
-      puts @signed_request['Authorization']
-      puts @signed_request['Content-MD5']
-      response = @signed_request.exec
-    	puts "Response " + response.inspect
+      url = 'https://api.imdbws.com/title/tt0111161/plot'
+      uri = URI.parse(url)
+      path = uri.path
+      puts "\nurl=", url
+      puts "\npath=", path
+      headers = ImdbApios::Signer.sign url, creds
+      puts "\nheaders=", headers
+      
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = true
+      
+      req = Net::HTTP::Get.new(uri)
+      req.add_field('Accept-Language', 'en_US')
+      req.add_field('X-Amz-Date', headers['X-Amz-Date'])
+      req.add_field('X-Amz-Security-Token', headers['X-Amz-Security-Token'])
+      req.add_field('X-Amzn-Authorization', headers['X-Amzn-Authorization'])
+      req.add_field('User-Agent', headers["User-Agent"])
+      
+       
+
+      res = http.request req
+      byebug
+      puts res
+      # @signed_request = ApiAuth.sign!(req, "ASIAJ4AR2BRNZJ2EPYIQ", "2IYkV33+dNbX18geZ4D5Sz4cjdnpKr9N9cA2mFei")
+      # puts @signed_request['Authorization']
+      # puts @signed_request['Content-MD5']
+      # response = @signed_request.exec
+    	# puts "Response " + response.inspect
       # response = http.request @signed_request
       # puts response
     end
@@ -109,7 +128,7 @@ module ImdbApios
       request.body = {"appKey": ImdbApios::Constant::APP_KEY }.to_json.to_s
       response = http.request(request)
       json_response = JSON.parse(response.read_body)['resource']
-      puts json_response
+      # puts json_response
       return json_response
     end
 
