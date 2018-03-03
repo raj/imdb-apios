@@ -17,12 +17,31 @@ module ImdbApios
       end
     end
 
+    def title_exists? imdb_id
+      return false unless ImdbApios.validate_imdb_id(imdb_id)
+      url = URI("http://www.imdb.com/title/#{imdb_id}/")
+      http = Net::HTTP.new(url.host, url.port)
+      request = Net::HTTP::Get.new(url)
+      response = http.request(request)
+      return  response.code == "200"
+    end
+
+
+    def search query
+      clean_q = query.gsub(' ',"_").gsub(/[^0-9A-Za-z\-_\.~]/, '').downcase
+      first_char = clean_q[0].downcase
+      search_url = URI.encode(clean_q)
+      url = URI("https://v2.sg.media-imdb.com/suggests/#{first_char}/#{search_url}.json")
+      response = get url
+      return response
+    end
+
+
     private
-    def get_resource(endpoint, imdb_id)
+
+    def get url
       creds = get_credentials
       params = {}
-      path = endpoint.gsub('{imdb_id}',imdb_id.to_s)
-      url = URI("https://api.imdbws.com#{path}")
       headers = ImdbApios::Signer.sign url, creds
 
       http = Net::HTTP.new(url.host, url.port)
@@ -39,9 +58,28 @@ module ImdbApios
       request.body = ""
 
       response = http.request(request)
-      json_response = JSON.parse(response.read_body)['resource']
+      
+      unless response.code == "200"
+        raise "StandardError"
+      end
+      re = /imdb\$.+\({1}(.+)\){1}/ # match suggest query which is not valid json
+      if response.read_body.match(re)
+        clean_resp = "{" + response.body.gsub(/imdb\$.+\({/,'').gsub(/}\)$/,"}")
+        json_response = JSON.parse clean_resp
+      else
+        json_response = JSON.parse(response.read_body)
+      end
+
       return json_response
 
+    end
+
+
+    def get_resource(endpoint, imdb_id)
+      path = endpoint.gsub('{imdb_id}',imdb_id.to_s)
+      url = URI("https://api.imdbws.com#{path}")
+      response = get url      
+      return response["resource"]
     end
 
 
