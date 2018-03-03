@@ -8,6 +8,8 @@ require 'rest-client'
 
 module ImdbApios
   class Client
+    
+
     def initialize
       ImdbApios::Constant::SIMPLE_GET_ENDPOINTS.each do |key, v|
         define_singleton_method :"#{key}" do |value|
@@ -35,6 +37,16 @@ module ImdbApios
       response = get url
       return response
     end
+
+    def get_popular_titles
+      get_resource "/chart/titlemeter"
+    end
+    
+    def get_popular_shows
+      get_resource "/chart/tvmeter"
+    end
+    
+
 
 
     private
@@ -75,8 +87,8 @@ module ImdbApios
     end
 
 
-    def get_resource(endpoint, imdb_id)
-      path = endpoint.gsub('{imdb_id}',imdb_id.to_s)
+    def get_resource(endpoint, imdb_id="")
+      path = endpoint.gsub('{imdb_id}',imdb_id)
       url = URI("https://api.imdbws.com#{path}")
       response = get url      
       return response["resource"]

@@ -35,6 +35,7 @@ module ImdbApios
     'get_title_credits': '/title/{imdb_id}/fullcredits',
     'get_name': '/name/{imdb_id}/fulldetails',
     'get_name_filmography': '/name/{imdb_id}/filmography',
+    'get_title': '/title/{imdb_id}/auxiliary'
   }
 
   
