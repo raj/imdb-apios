@@ -1,9 +1,6 @@
 require 'uri'
 require 'net/http'
 require "json"
-require 'api-auth'
-require 'byebug'
-require 'rest-client'
 
 
 module ImdbApios

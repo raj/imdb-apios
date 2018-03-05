@@ -1,4 +1,4 @@
-require 'httparty'
+require 'base64'
 require 'digest'
 
 module ImdbApios
