@@ -1,6 +1,7 @@
 require 'uri'
 require 'net/http'
 require "json"
+require "cgi"
 
 
 module ImdbApios
@@ -16,18 +17,22 @@ module ImdbApios
 
     def title_exists? imdb_id
       return false unless ImdbApios.validate_imdb_id(imdb_id)
-      url = URI("http://www.imdb.com/title/#{imdb_id}/")
+      url = URI("https://www.imdb.com/title/#{imdb_id}/")
       http = Net::HTTP.new(url.host, url.port)
+      http.use_ssl = true
+      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       request = Net::HTTP::Get.new(url)
+      request["User-Agent"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
       response = http.request(request)
-      return  response.code == "200"
+      # Accept 200 OK or redirect status codes (301, 302, 303, 307, 308)
+      return response.is_a?(Net::HTTPSuccess) || response.is_a?(Net::HTTPRedirection)
     end
 
 
     def search query
       clean_q = query.gsub(' ',"_").gsub(/[^0-9A-Za-z\-_\.~]/, '').downcase
       first_char = clean_q[0].downcase
-      search_url = URI.encode(clean_q)
+      search_url = CGI.escape(clean_q)
       url = URI("https://v2.sg.media-imdb.com/suggests/#{first_char}/#{search_url}.json")
       response = get url
       return response

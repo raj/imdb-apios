@@ -56,8 +56,8 @@ RSpec.describe ImdbApios do
 
 
   it "check if title exist" do
-    result = @client.title_exists?('tt2322441')
-    expect(result).to be true 
+    result = @client.title_exists?('tt0111161')
+    expect(result).to be true
   end
 
   it "check if title doesn't exist" do 
@@ -102,7 +102,7 @@ RSpec.describe ImdbApios do
 
   it "search for title with no result" do
     results = @client.search('898582da396c93d5589e0')
-    has_result =  results.keys.include?("d")
+    has_result = results.key?("d") && results['d'].length > 0
     expect(has_result).to be false
   end
 
@@ -195,7 +195,7 @@ RSpec.describe ImdbApios do
     imdb_id = 'tt0111161'
     expected_keys = [
         '@type', 'id', 'title', 'titleType', 'year', 'bottomRank',
-        'canRate', 'rating', 'ratingCount', 'topRank'
+        'canRate', 'rating', 'ratingCount', 'topRank', 'ratingsHistograms'
     ]
 
     resource = @client.get_title_ratings(imdb_id)
@@ -237,7 +237,7 @@ RSpec.describe ImdbApios do
 
   it "get name videos" do
     expected_keys = [
-        '@type', 'akas', 'id', 'image', 'legacyNameText', 'name', 'size',
+        '@type', 'akas', 'disambiguation', 'id', 'image', 'legacyNameText', 'name', 'size',
         'videoCounts', 'videos'
     ]
 
