@@ -37,6 +37,24 @@ gem 'imdb_apios', :git => 'https://github.com/raj/imdb-apios'
 ## Usage
 
 
+### Example
+
+content of example.rb
+
+```ruby
+require 'imdb_apios'
+@client = ImdbApios::Client.new
+
+result = @client.get_title('tt0111161')
+puts result.inspect
+```
+
+execute the script
+
+```bash
+bundle exec ruby example.rb
+```
+
 ### Initialise the client
 ```ruby
 require 'imdb_apios'
@@ -80,10 +98,10 @@ Example | Description
 `get_name_filmography('nm0000151')` | Returns a json containing person/name filmography information
 `get_name_images('nm0000032')` | Returns a json containing person/name images information
 `get_name_videos('nm0000032')` | Returns a json containing person/name videos information
-`validate_imdb_id('tt0111161')` | Return false if not valid 
+`validate_imdb_id('tt0111161')` | Return false if not valid
 `get_popular_titles()` | Returns a json containing popular titles information
 `get_popular_shows()` | Returns a json containing popular tv shows
-`get_popular_movies()` | Returns a json containing popular movies 
+`get_popular_movies()` | Returns a json containing popular movies
 
 
 ## Requirements
@@ -97,7 +115,7 @@ bundle
 rake spec
 ```
 
-## example 
+## example
 
 ```bash
 require 'imdb_apios'
@@ -105,8 +123,8 @@ require 'imdb_apios'
 @client.search("Katrina Kaif")['d']
 
 => [
-  {"l"=>"Katrina Kaif", "id"=>"nm1229940", "s"=>"Actress, Zindagi Na Milegi Dobara (2011)", "i"=>["https://images-na.ssl-images-amazon.com/images/M/MV5BMTUwODY3NzA3NF5BMl5BanBnXkFtZTcwNTEzNDg3OA@@._V1_.jpg", 1266, 1767]}, 
-  {"l"=>"Katrina Kroetch", "id"=>"nm6009562", "s"=>"Actress, 13 Reasons Why (2017)", "i"=>["https://images-na.ssl-images-amazon.com/images/M/MV5BYWFkMDU0NzEtM2Y1Zi00ZTZjLWI1NjAtYWEwMDc1ZTI1ZWYzXkEyXkFqcGdeQXVyNDc0NzM1MjE@._V1_.jpg", 3840, 5760]}, {"l"=>"Katrina Kemp", "id"=>"nm4320986", "s"=>"Actress, Faking It (2014-2015)", "i"=>["https://images-na.ssl-images-amazon.com/images/M/MV5BMTg3MzA2ODk3N15BMl5BanBnXkFtZTgwOTc2MzcwMzE@._V1_.jpg", 640, 640]}, {"l"=>"Katrina Kavanaugh", "id"=>"nm7771701", "s"=>"Actress, Longmire (2013)", "i"=>["https://images-na.ssl-images-amazon.com/images/M/MV5BNmVhYzMwYTQtODlhMi00ZGE5LTk2ZGYtZGUyMGUyNTMzYzAwXkEyXkFqcGdeQXVyNjEyODUyNjg@._V1_.jpg", 556, 695]}, {"l"=>"Katrina Kat", "id"=>"nm3698859", "s"=>"Actress, Imprecation (2009)"}, {"l"=>"Kathimerina kai apla", "id"=>"tt7549998", "s"=>"Elsa Poimenidou, Haris Arvanitidis", "y"=>2017, "q"=>"TV series"}, {"l"=>"Horumaika: Tebori Nakayama zuidou no kiroku", "id"=>"tt2066892", "y"=>2005, "q"=>"feature"}, 
+  {"l"=>"Katrina Kaif", "id"=>"nm1229940", "s"=>"Actress, Zindagi Na Milegi Dobara (2011)", "i"=>["https://images-na.ssl-images-amazon.com/images/M/MV5BMTUwODY3NzA3NF5BMl5BanBnXkFtZTcwNTEzNDg3OA@@._V1_.jpg", 1266, 1767]},
+  {"l"=>"Katrina Kroetch", "id"=>"nm6009562", "s"=>"Actress, 13 Reasons Why (2017)", "i"=>["https://images-na.ssl-images-amazon.com/images/M/MV5BYWFkMDU0NzEtM2Y1Zi00ZTZjLWI1NjAtYWEwMDc1ZTI1ZWYzXkEyXkFqcGdeQXVyNDc0NzM1MjE@._V1_.jpg", 3840, 5760]}, {"l"=>"Katrina Kemp", "id"=>"nm4320986", "s"=>"Actress, Faking It (2014-2015)", "i"=>["https://images-na.ssl-images-amazon.com/images/M/MV5BMTg3MzA2ODk3N15BMl5BanBnXkFtZTgwOTc2MzcwMzE@._V1_.jpg", 640, 640]}, {"l"=>"Katrina Kavanaugh", "id"=>"nm7771701", "s"=>"Actress, Longmire (2013)", "i"=>["https://images-na.ssl-images-amazon.com/images/M/MV5BNmVhYzMwYTQtODlhMi00ZGE5LTk2ZGYtZGUyMGUyNTMzYzAwXkEyXkFqcGdeQXVyNjEyODUyNjg@._V1_.jpg", 556, 695]}, {"l"=>"Katrina Kat", "id"=>"nm3698859", "s"=>"Actress, Imprecation (2009)"}, {"l"=>"Kathimerina kai apla", "id"=>"tt7549998", "s"=>"Elsa Poimenidou, Haris Arvanitidis", "y"=>2017, "q"=>"TV series"}, {"l"=>"Horumaika: Tebori Nakayama zuidou no kiroku", "id"=>"tt2066892", "y"=>2005, "q"=>"feature"},
   {"l"=>"Katrina Kane", "id"=>"nm0437365", "s"=>"Editorial Department, The Experiment (2010)"}
   ]
 
